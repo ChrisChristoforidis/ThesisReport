@@ -1,0 +1,87 @@
+\documentclass{tudelft-report}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{multirow}
+\usepackage{pifont}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{pdfpages,caption}
+\usepackage[toc,page]{appendix}
+\usepackage{array}
+\usepackage{blindtext}
+\usepackage{wrapfig}
+\usepackage[export]{adjustbox}
+\usepackage{stackengine,graphicx}
+\usepackage{graphicx,subfig}
+\usepackage[export]{adjustbox}
+\usepackage[parfill]{parskip}
+
+\begin{document}
+
+%% Use Roman numerals for the page numbers of the title pages and table of
+%% contents.
+\frontmatter
+
+%% Uncomment following 19 lines for a cover with a picture on the lower half only
+%\title[tudelft-white]{Title}
+%\subtitle[tudelft-cyan]{Optional subtitle}
+%\author[tudelft-white]{J.\ Random Author}
+%\affiliation{Technische Universiteit Delft}
+%\coverimage{cover.jpg}
+%\titleoffsetx{10cm}
+%\titleoffsety{10cm}
+%\afiloffsetx{1cm}
+%\afiloffsety{18cm}
+%\covertext[tudelft-white]{
+%    \textbf{Cover Text} \\
+%    possibly \\
+%    spanning 
+%    multiple 
+%    lines
+%    \vfill
+%    ISBN 000-00-0000-000-0
+%}
+%\makecover
+
+%% Uncomment following 16 lines for a cover with a picture on the lower half only
+\title[Literature Review]{Modelling the bicycle rider as a controller}
+\author{C.\ Christoforidis}
+\affiliation{Technische Universiteit Delft}
+\coverimage{images/bike_rider.jpg}
+\covertext{
+    \textbf{Cover Text} \\
+    possibly \\
+    spanning 
+    multiple 
+    lines
+    \vfill
+    ISBN 000-00-0000-000-0
+}
+
+\makecover
+
+
+%% Include an optional title page.
+\input{title}
+
+\input{content/abstract}
+
+\tableofcontents
+
+%% Use Arabic numerals for the page numbers of the chapters.
+\mainmatter
+
+\input{content/intro}
+\input{content/methods}
+\input{content/results}
+\input{content/conclusion}
+%% Use letters for the chapter numbers of the appendices.
+\appendix
+
+%\input{appendix-a}
+
+\bibliography{report}
+
+\end{document}
+
