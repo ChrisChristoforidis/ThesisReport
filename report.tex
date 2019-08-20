@@ -16,7 +16,9 @@
 \usepackage{graphicx,subfig}
 \usepackage[export]{adjustbox}
 \usepackage[parfill]{parskip}
-
+\usepackage{siunitx}
+\usepackage[noabbrev]{cleveref}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \begin{document}
 
 %% Use Roman numerals for the page numbers of the title pages and table of
@@ -78,8 +80,8 @@
 \input{content/conclusion}
 %% Use letters for the chapter numbers of the appendices.
 \appendix
-
-%\input{appendix-a}
+%input{content/imu.tex}
+\input{content/appendix-a}
 
 \bibliography{report}
 

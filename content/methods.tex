@@ -34,7 +34,7 @@ In order to understand the derived equations of motion a consideration must be m
 \end{figure}
 \par
 As it turns out some of the configuration variables do not appear in any of the equations of motion of the different parts. These so-called cyclic or ignorable coordinates are: the location of the bicycle on the plane (\ensuremath{x_{P}}, \ensuremath{y_{P}}), the heading of the bicycle \ensuremath{\psi} and the rotations (\ensuremath{\theta_{R}}, \ensuremath{\theta_{F}}) of the two wheels relative to their respective frames \cite{meijaard2007linearized}. Additionally due to a symmetry of the bicycle design and the lateral equations of motion, a  first order decoupling between forward and lateral dynamics exists \cite{meijaard2007linearized}. This means that the equations governing forward movement can be ignored when examining lateral dynamics like bicycle stabilization and vice versa. In conclusion, the three independent degrees of freedom that define the equations of motion are the  forward speed \ensuremath{\nu},  the lean angle \ensuremath{\phi} and the  steering angle \ensuremath{\delta} (figure \ref{fig:figure3}).
-\subsection{The linearized equations of motion}
+\subsection{The linearized equations of motion} \label{subsec:EOM}
 Keeping in mind the above considerations Meijaard et al.\cite{meijaard2007linearized} managed to formulate a set of three linearized equations that each describe a degree of freedom. The first is a first order differential equation that describes the forward speed as shown in equation \ref{eq:equation1}\cite{meijaard2007linearized}.
 \begin{equation}
     \left[r_{R}^{2} m_{T}+I_{R y y}+\left(\frac{r_{R}}{r_{F}}\right)^{2} I_{F y y}\right] \ddot{\theta}_{R}=T_{\theta_{R}}
@@ -332,7 +332,7 @@ In order to validate that the commanded torque in the handlebar motor is the sam
 \end{figure}
 
 \section{Roll Angle Estimation}
-The need for reliable and accurate measurements of roll angle are paramount. Unfortunately, the steer-by-wire bike does not have sensor that can directly produce measurements of roll angle. For this reason an inderict approach is used that was developed by Sanjuro et al. \cite{sanjurjo2018roll}. The method produces satisfactory roll angle estimations using only the angular rates measured by an IMU sensor.
+The need for reliable and accurate measurements of roll angle are paramount. Unfortunately, the steer-by-wire bike does not have sensor that can directly produce measurements of roll angle. For this reason an inderict approach is used that was developed by \citet{sanjurjo2018roll}. The method produces satisfactory roll angle estimations using only the angular rates measured by an IMU sensor.
 
 Kalman filters are often used as state estimators when multiple measurument sources need to be combined into a single more reliable one. Often the output of a model is combined with absolute measurements and an estimation of the state is made by dynamically weighting the two sources of information. In this case a simple plant model is created which has the roll rate from the IMU as input and  produces the roll angle of the next time step given the previous one. In order to account for biases in the angular rate sensor an extra state \ensuremath{b_x} is added to the model. The complete formulation is given by :
 \begin{equation}
@@ -356,7 +356,7 @@ In the correction stage of the Kalman filter absolute measurements of the roll a
 
 where \ensuremath{\omega_{y}^{B},\omega_{z}^{B}} are the angular rate IMU measurements in the y and z direction respectively (see Fig.\ref{fig:IMUaxis}), \ensuremath{W } is the weighting fucntion  \ensuremath{\hat{\phi}} is the last available estimation of roll and \ensuremath{\overline{\phi}^2} is a constant that can be used to adjust the weighting function. In \cite{sanjurjo2018roll} Sanjuro et al. used  \ensuremath{\overline{\phi}^2=0.05}.
 
- The method was used in a trial rider identification run to test if it can estimate the ranges of roll angle sway present during the experiments. The output is seen in figure \ref{fig:rollangleobserverplot}. From the result it is evident that the pseudo-absolute measurements are  quite noisy. For this reason emphasis was focused on the model by tuning the initial values of covariance of the model state estimation to be much lower than that of the measurements.
+ The method was used in a trial rider identification run to test if it can estimate the ranges of roll angle sway present during the experiments. The output is seen in  \cref{fig:rollangleobserverplot}. From the result it is evident that the pseudo-absolute measurements are  quite noisy. For this reason emphasis was focused on the model by tuning the initial values of covariance of the model state estimation to be much lower than that of the measurements.
 
  \begin{figure}[h]
     \centering
