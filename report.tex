@@ -1,7 +1,5 @@
 \documentclass{tudelft-report}
 \usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{subfig}
 \usepackage{multirow}
 \usepackage{pifont}
 \usepackage{hyperref}
@@ -12,12 +10,15 @@
 \usepackage{blindtext}
 \usepackage{wrapfig}
 \usepackage[export]{adjustbox}
-\usepackage{stackengine,graphicx}
-\usepackage{graphicx,subfig}
+\usepackage{stackengine}
+\usepackage{graphicx}
 \usepackage[export]{adjustbox}
 \usepackage[parfill]{parskip}
 \usepackage{siunitx}
 \usepackage[noabbrev]{cleveref}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\captionsetup{compatibility=false}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \begin{document}
 
@@ -82,6 +83,7 @@
 \appendix
 %input{content/imu.tex}
 \input{content/appendix-a}
+\input{content/appendix-b}
 
 \bibliography{report}
 
