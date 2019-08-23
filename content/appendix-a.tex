@@ -39,25 +39,25 @@ The readings from the accelerometer are expressed in the sensor frame (B). \Cref
     \caption{a) The bicycle's desired Z axis is aligned with the vector of gravitational acceleration. The bike was validated to be completely upright by the use of a calibrated commerical IMU (MTw Awinda). b) The bicycle's desired X axis is aligned with the vector of gravitational acceleration. The door was validated to be completely vertical by the use of a calibrated commerical IMU (MTw Awinda). \ensuremath{\mathbf{g}} is the vector measured by the accelerometer which oposite to the gravitational acceleration.}
  \end{figure}
  \begin{equation}
- \frac{\boldsymbol{G}_{i}^B}{\norm{\boldsymbol{G}_{i}^B}}=\left(\begin{array}{l}{G_{i x}^B} \\ {G_{i y}^B} \\ {G_{i z}^B}\end{array}\right)\frac{1}{\sqrt{{G_{i x}^B}^2+{G_{i y}^B}^2+{G_{i z}^B}^2}}=R_{\mathit{xyz}}\boldsymbol{g}_i
+ \frac{\boldsymbol{G}_{i}^B}{\norm{\boldsymbol{G}_{i}^B}}=\left(\begin{array}{l}{G_{i x}^B} \\ {G_{i y}^B} \\ {G_{i z}^B}\end{array}\right)\frac{1}{\sqrt{{G_{i x}^B}^2+{G_{i y}^B}^2+{G_{i z}^B}^2}}=\boldsymbol{R}_{\mathit{xyz}(\phi_o,\theta_o,\psi_o)}\boldsymbol{g}_i
 \label{eq:firstIMU}
  \end{equation}
  
 Solving \cref{eq:firstIMU} for the angles we get :
 \begin{align}
-   & \phi=tan^{-1}\left(\frac{G_{1x}^B}{G_{1y}^B}\right)
+   & \phi_o=tan^{-1}\left(\frac{G_{1y}^B}{G_{1z}^B}\right)
    \label{eq:offset1}
    \\
-   & \theta= tan^{-1}\left(\frac{G_{1 x}^B}{\sqrt{{G_{1 y}^B}^{2}+{G_{1 z}^B}^{2}}}\right) 
+   & \theta_o= tan^{-1}\left(\frac{G_{1 x}^B}{\sqrt{{G_{1 y}^B}^{2}+{G_{1 z}^B}^{2}}}\right) 
    \label{eq:offset2}
    \\
-   & \psi = tan^{-1}\left(\frac{-G_{2 y}^B}{\sqrt{{G_{2 x}^B}^{2}+{G_{2 z}^B}^{2}}}\right)
+   & \psi_o = tan^{-1}\left(\frac{-G_{2 y}^B}{\sqrt{{G_{2 x}^B}^{2}+{G_{2 z}^B}^{2}}}\right)
    \label{eq:offset3}
 \end{align}
 
 From \crefrange{eq:offset1}{eq:offset3} the euler angle offsets calculated are inserted into rotation matrix \ensuremath{R_{\mathit{xyz}}}. The transpose of the result (\ref{eq:resultIMU}) is then used to transform the IMU measurements from the coordinate frame B to the coordinate frame G which is consistent with the linearized equations of motion defined in \cref{subsec:EOM}.
 
 \begin{equation}
-R_{\mathit{IMU}}=R_{\mathit{xyz}}^T=\left(\begin{array}{ccc} 0.9939 & -0.006106 & -0.1105\\ 0.006069 & 1.0 & -0.000675\\ 0.1105 & 0 & 0.9939 \end{array}\right)
+R_{\mathit{IMU}}=R_{\mathit{xyz}}^T(\phi_o,\theta_o,\psi_o)=\left(\begin{array}{ccc} 0.9939 & -0.006106 & -0.1105\\ 0.006069 & 1.0 & -0.000675\\ 0.1105 & 0 & 0.9939 \end{array}\right)
     \label{eq:resultIMU}
 \end{equation}
