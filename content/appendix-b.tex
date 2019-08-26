@@ -22,7 +22,7 @@ In order to properly assess the state of the bicycle when comparing it with the 
     \dot{\phi} &=\left(\prescript{B}{}{\omega_{y}} \sin \phi+\prescript{B}{}{\omega_{z}} \cos \phi\right) \tan \theta+\prescript{B}{}{\omega_{x}} \approx \prescript{B}{}{\omega_{x}}
     \label{eq:appb1}
     \\
-    \dot{\psi} &=\frac{\prescript{B}{}{\omega_{y}} \sin \phi+\prescript{B}{}{\omega_{z}} \cos \phi}{\cos \theta}
+    \dot{\psi} &=\frac{\prescript{B}{}{\omega_{y}} \sin \phi+\prescript{B}{}{\omega_{z}} \cos \phi}{\cos \theta} \approx \prescript{B}{}{\omega_{y}} \sin \phi+\prescript{B}{}{\omega_{z}} \cos \phi
     \label{eq:appb2}
 \end{align}
 
@@ -34,7 +34,7 @@ With no prior knowledge of the resulting drift another method needs to be found 
 
 My first naive implementation was to calculate the roll  from the accelerometer data by assuming that gravity is the only force captured in the accelerometer readings. The formulation of the estimators is identical to the \cref{eq:offset1}. However, this is not ideal for the particular application of single track vehicles since lateral accelerations due to centrifugal forces heavily change the accelerometer measurements. 
 
-\citet{sanjurjo2018roll} used equations \ref{eq:rolangle11} and \ref{eq:rolangle22}  as pseudo absolute measurements. They explain that equation \ref{eq:rolangle11} is more reliable for  angles close to zero and equation \ref{eq:rolangle22} is more reliable for larger roll angles, for this reason  a weighted sum of the two methods is employed \ref{eq:rolangle33} that follows the weighting function \ref{eq:rolangle44} .
+\citet{sanjurjo2018roll} used equations \ref{eq:rolangle11} and \ref{eq:rolangle22}  as pseudo absolute measurements. Note that \ref{eq:rolangle22} is directly dirived from the second equation of \ref{eq:dotmap}.    They explain that equation \ref{eq:rolangle11} is more reliable for  angles close to zero and equation \ref{eq:rolangle22} is more reliable for larger roll angles, for this reason  a weighted sum of the two methods is employed \ref{eq:rolangle33} that follows the weighting function \ref{eq:rolangle44} .
 \begin{align}
       \phi_{d}=\tan^{-1}\left(\frac{\omega_{z}^{B} v}{g}\right) \label{eq:rolangle11}
     \\
@@ -46,7 +46,7 @@ My first naive implementation was to calculate the roll  from the accelerometer 
   \label{eq:rolangle44}
 \end{align}
 
-where \ensuremath{W } is the weighting fucntion  \ensuremath{\hat{\phi}} is the last available estimation of roll and \ensuremath{\overline{\phi}^2} is a constant that can be used to adjust the weighting function. Sanjuro et al. used  \ensuremath{\overline{\phi}^2=0.05}.
+where \ensuremath{W } is the weighting fucntion,  \ensuremath{\hat{\phi}} is the last available estimation of roll and \ensuremath{\overline{\phi}^2} is a constant that can be used to adjust the weighting function. Sanjuro et al. used  \ensuremath{\overline{\phi}^2=0.05}.
 
 For the sensor fusion algorithm both a simple complimentary filter and a Kalman filter were tested. The complementary filter works by combining the desirable low-frequency characteristics of the absolute measurements with the desirable high-frequency characteristics of the euler integration output. 
 
@@ -55,7 +55,7 @@ For the sensor fusion algorithm both a simple complimentary filter and a Kalman 
 \end{equation}
 where \ensuremath{k} is the current iteration of the microcontroller and \ensuremath{\alpha} is a constant, such that \ensuremath{0<\alpha<1}. The larger the \ensuremath{\alpha}, the more pseudo absolute measurments are 'trusted'. As \ensuremath{\alpha} goes to zero the estimate is mainly based on the integration output. 
 
-On the other hand, Kalman filters are also often used as state estimators when multiple measurement sources need to be combined into a single more reliable one. Often the output of a model is combined with absolute measurements and an estimation of the state is made by dynamically weighting the two sources of information. In this case a simple plant model is created which has \ensuremath{\dot{\phi}} as input and  produces the roll angle of the next time step given the previous one. In order to account for biases in the angular rate sensor an extra state \ensuremath{b_x} is added to the model. The complete formulation is given by :
+On the other hand, Kalman filters are also often used as state estimators when multiple measurement sources need to be combined into a single more reliable one. Often the output of a model is combined with absolute measurements and an estimation of the state is made by dynamically weighting the two sources of information. In this case a simple plant model is created which has \ensuremath{\dot{\phi}\approx \prescript{B}{}{\omega_{x}}} as input and  produces the roll angle of the next time step given the previous one. In order to account for biases in the angular rate sensor an extra state \ensuremath{b_x} is added to the model. The complete formulation is given by :
 \begin{equation}
 \left[ \begin{array}{c}{\hat{\phi}} \\ {\hat{b}_{x}}\end{array}\right]_{k}^{-}=\left[ \begin{array}{cc}{1} & {-d t} \\ {0} & {1}\end{array}\right] \left[ \begin{array}{c}{\hat{\phi}} \\ {\hat{b}_{x}}\end{array}\right]_{k-1}^{+}+\left[ \begin{array}{c}{d t} \\ {0}\end{array}\right] \prescript{B}{}{\omega_{x,k-1}}
 \end{equation}
@@ -109,7 +109,7 @@ The measured magnetometer readings \ensuremath{\boldsymbol{B}_{p}} after three r
     \label{eq:b14}
 \end{equation}  
 
-where \ensuremath{\boldsymbol{R}_{\mathit{xyz}}} the rotation matrix defined in \cref(eq:rotmat) and \ensuremath{V_x,V_y,V_z} are the components of the Hard-Iron vector,  which is a fixed magnetic offset adding to the true magnetometer sensor output. The Hard-Iron offset is the sum of any intrinsic zero field offset within the magnetometer sensor itself plus permanent magnetic fields within the PCB generated by magnetized ferromagnetic materials. It is quite normal for the Hard-Iron offset to greatly exceed the geomagnetic field.  Therefore an accurate Hard-Iron estimation and subtraction are required.
+where \ensuremath{\boldsymbol{R}_{\mathit{xyz}}} the rotation matrix defined in \ref(eq:rotmat2) and \ensuremath{V_x,V_y,V_z} are the components of the Hard-Iron vector,  which is a fixed magnetic offset adding to the true magnetometer sensor output. The Hard-Iron offset is the sum of any intrinsic zero field offset within the magnetometer sensor itself plus permanent magnetic fields within the PCB generated by magnetized ferromagnetic materials. It is quite normal for the Hard-Iron offset to greatly exceed the geomagnetic field.  Therefore an accurate Hard-Iron estimation and subtraction are required.
 
 The Hard-Iron offset can be estimated if we consider that the set of all 3d points defined by every magnetometer reading lies in the surface of a sphere with radius \ensuremath{B}. In the presense of the offset, the center of the sphere would be displaced by the Hard-Iron Vector \ensuremath{\boldsymbol{V}}. The components of vector \ensuremath{\boldsymbol{V}} can be estimated by fitting the magnetometer measurements to the equation:
 \begin{equation}
@@ -120,7 +120,7 @@ The Hard-Iron offset can be estimated if we consider that the set of all 3d poin
 \Cref{eq:magOptim} was solved with the gradient descend method by minimizing the  sum of the squared difference between the right and left hand side of the equation. The resulting Hard-Iron Offset Vecotor was :
 
 \begin{equation}
-    \boldsymbol{V}=\left(\begin{array}{c} 0.04824\\ 0.07614\\ -0.09392 \end{array}\right)
+    \boldsymbol{V}=\left(\begin{array}{ccc} -22.03 & -26.14 & -1.651 \end{array}\right)\;\;\;\;\;\;\;\;\;\;[\si{\micro\tesla}]
 \end{equation}
 
 In \cref{fig:sphere_mag} the locus defined by the set of vectors measured by the magnetometer is displayed. It is visible that after the correction the measurements lie on the surface of a sphere with center in the origin and radius approximately equal to 1 a.u.
@@ -149,3 +149,9 @@ By dividing the y and x component of  \cref{eq:B18} we get:
 \end{equation} 
 
 where \ensuremath{\hat{\phi}} is the estimate of roll angle obtained from the aforementioned methods. \Cref{eq:psiMag} can now be used as a source of pseudo-absolute measurements for the sensor fusion algorithm of choice. Regarding signal fusion the same things apply as in the roll angle estimation case. Finally since we want the yaw angle relative to the starting position and not relative to the magnetic north the value of the first yaw estimation is subtracted from all subsequent computations.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{images/figureB_3.eps}
+    \caption{Comparison of online yaw angle estimation.Red dotted line is the pure estimation from the magnetometer data. Orange line is the drifted euler integration output. Blue line is the result of the complimentary filter sensor fusing the other two signals. For the complimentary filter \ensuremath{a=0.00027}.}
+\end{figure}
