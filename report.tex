@@ -19,6 +19,7 @@
 \usepackage[noabbrev]{cleveref}
 \usepackage{subcaption}
 \usepackage{mathtools}
+\usepackage{multirow}
 \captionsetup{compatibility=false}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \begin{document}
@@ -77,14 +78,19 @@
 \mainmatter
 
 \input{content/intro}
-\input{content/methods}
-\input{content/results}
-\input{content/conclusion}
+\input{content/effects_of_feedback_conference.tex}
+
+\input{content/effects_of_feedback_parametric.tex}
+
+% \input{content/methods}
+% \input{content/results}
+% \input{content/conclusion}
 %% Use letters for the chapter numbers of the appendices.
 \appendix
 %input{content/imu.tex}
 \input{content/appendix-a}
 \input{content/appendix-b}
+\input{content/appendix-c}
 
 \bibliography{report}
 
