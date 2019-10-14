@@ -205,7 +205,7 @@
 \setlength\@cover@spinewidth{0.375in}
 %% Width and height of the boxes on the front and back cover.
 \newlength\@cover@frontboxwidth
-\setlength\@cover@frontboxwidth{4.375in}
+\setlength\@cover@frontboxwidth{3.375in}
 \newlength\@cover@frontboxheight
 \setlength\@cover@frontboxheight{2.1875in}
 \newlength\@cover@fronttextwidth
