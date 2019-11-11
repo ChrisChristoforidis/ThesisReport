@@ -197,7 +197,23 @@
 %% cover. This text is inserted in a minipage environment and can therefore
 %% include line breaks.
 \newcommand\covertext[1]{\def\@cover@text{#1}}
-
+\newcommand\dedication[1]{%
+    \thispagestyle{empty}%
+    \vspace*{\fill}%
+    \begin{flushright}%
+        #1%
+    \end{flushright}%
+    \vspace*{\fill}%
+    \cleardoublepage%
+}
+\newcommand\epigraph[3][2\baselineskip]{%
+    \begin{flushright}%
+        {\rmfamily\itshape #2}%
+        \vskip 0.5\baselineskip%
+        #3%
+    \end{flushright}%
+    \vspace{#1}%
+}
 %% The cover image is scaled to fill the width of the front cover.
 \newlength\@cover@imagewidth
 %% The width of the spine if a back cover is present.

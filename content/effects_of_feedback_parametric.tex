@@ -13,7 +13,7 @@ The aim of this study is to evaluate the performance of three different control 
 % In the lateral perturbation experiments conducted for two experimental conditions (torque feedback on and off), a statistical significant difference for control effort and task performance  could not be discerned. This indicated that the  rider despite the reduced feedback and changed bicycle dynamics managed to compensate and produce similar outputs. For this reason, a gray box analysis is conducted in this work to get further insights on what and why might have led to the findings derived in \cite{dialynaseffect}.
 
 \section{Methods}
-  In this work system identification techniques are employed to develop a rider control model andn  investigate the effectiveness of torque feedback via a gray box analysis . The ultimate goal is to formulate a model that best simulates bicycle rider balance behavior. This is done by comparing the parametric  results of  three torque feedback level conditions. In the first, the torque feedback loop is part of the rider control model. In the second, it is removed by setting its corresponding gain value to zero. In the third, the effectiveness of torque feedback is reduced by altering the plant dynamics and creating a steering configuration where the forces that would naturally transfer from the front wheel contact point to the handlebars are canceled, similar to how the haptics off case was implemented in the experimental condition \cite{dialynaseffect}. The full methodology is summarized in the list below:
+  In this work system identification techniques are employed to develop a rider control model and  investigate the effectiveness of torque feedback via a gray box analysis. The ultimate goal is to formulate a model that best simulates bicycle rider balance behavior. This is done by comparing the parametric  results of  three torque feedback level conditions. In the first, the torque feedback loop is part of the rider control model. In the second, it is removed by setting its corresponding gain value to zero. In the third, the effectiveness of torque feedback is reduced by altering the plant dynamics and creating a steering configuration where the forces that would naturally transfer from the front wheel contact point to the handlebars are canceled, similar to how the haptics off case was implemented in the experimental condition \cite{dialynaseffect}. The full methodology is summarized in the list below:
 \begin{enumerate}
     \item Black box identification : the procedure described in \cite{dialynaseffect} is followed to produce impulse response functions (IRFs), through the use of a FIR model, for steering angle \ensuremath{\delta}, roll angle \ensuremath{\phi}, yaw angle \ensuremath{\psi} and steer torque  \ensuremath{T_\delta}. This is done in order to extract the linear relationship between disturbance and measurements effectively filtering intrasubject variability. In the case of \ensuremath{T_\delta} instead of considering the whole bicycle rider closed loop system as a black box, the bicycle rider open loop is chosen with input the disturbance \ensuremath{w} and output the control input \ensuremath{T_\delta} (see \cref{fig:blackbox}).
     \item The produced IRFs \ensuremath{h^\delta(\tau)}, \ensuremath{h^\phi(\tau)}, \ensuremath{h^\psi(\tau)}, \ensuremath{h^{T_\delta}(\tau)} are filtered using zero-phase low pass filter with a cutoff frequency of 10 \si{\hertz}.
@@ -61,7 +61,7 @@ To determine the stability of the open loop system in a straight ahead motion th
     \label{eq:paper2}
 \end{equation}
 
-is solved for a forward speed range from 0 to 10 \si{\meter\per\second} where \ensuremath{\lambda} are the eigenvalues of the system (see \cref{fig:paper2}). The two interesting eigenmodes defined by the locus plot are the weave and capsize. The weave corresponds to an oscillatory mode as can be seen by the existence of imaginary parts and represents a motion in which the bicycle sways about its heading. The oscillatory motions exponentially fades when forward speed is larger than 4.39 \si{\meter\per\second}. The capsize on the other hand has an eigenvector dominated by lean and leads to a gradual roll drift to infinity when the eigenvalue crosses the zero line around 6.67 \si{\meter\per\second}.
+is solved for a forward speed range from 0 to 10 \si{\meter\per\second} where \ensuremath{\lambda} are the eigenvalues of the system (see \cref{fig:paper2}). The two interesting eigenmodes defined by the locus plot are the weave and capsize. The weave corresponds to an oscillatory mode as can be seen by the existence of imaginary parts and represents a motion in which the bicycle sways about its heading. This oscillatory motion exponentially fades when forward speed is larger than 4.39 \si{\meter\per\second}. The capsize on the other hand has an eigenvector dominated by lean and leads to a gradual roll drift to infinity when the eigenvalue crosses the zero line around 6.67 \si{\meter\per\second}.
 \begin{figure}[ht]
     \centering
     \captionsetup{justification=centering,margin=2cm}
@@ -77,13 +77,12 @@ Since in the experimental setup the task could not be isolated to purely balance
     \label{eq:paper3}
     \end{equation}
 
-When modeling the haptics off case of the steer-by-wire bicycle the dynamics of the plant need to change accordingly. In that configuration, the forcing steering input is directly proportional to steering acceleration, for this reason the second of the set of equations in \ref{eq:paper1} becomes :
+When modeling the haptics off case of the steer-by-wire bicycle the dynamics of the plant need to change accordingly. In that configuration, the forcing steering input is directly proportional to steering acceleration, for this reason the  constant coefficient matrices of \ref{eq:paper1} become :
+
 \begin{align}
-    M_{22}\ddot{\delta}+ M_{21}\ddot{\phi} + v{C_1}_{22}\dot{\delta} + v{C_1}_{21}\dot{\phi}+[g{K_0}_{22}+v^2{K_0}_{22}]\delta +[g{K_0}_{21}+v^2{K_0}_{21}]\delta &= T_{\delta} \\
-    M_{22}\ddot{\delta} &= T_{\delta} \\
-    I_{F_{xx}}\ddot{\delta} &= T_{\delta} 
+\begin{array}{l}{\mathbf{M}=\left[\begin{array}{cc}{{M}_{11}} & {{M}_{12}} \\ {0} & {I_{F_{xx}}}\end{array}\right], \quad \mathbf{C}_{1}=\left[\begin{array}{cc}{0} & {{C_1}_{\scriptscriptstyle 12}} \\ {0} & {0}\end{array}\right]} \\ {\mathbf{K}_{0}=\left[\begin{array}{cc}{{K_0}_{\scriptscriptstyle 11}} & {{K_0}_{\scriptscriptstyle 12}}  \\ {0} & {0}\end{array}\right], \quad \mathbf{K}_{2}=\left[\begin{array}{ccc}{0} & {{K_2}_{\scriptscriptstyle 12}} \\  {0} & {0}\end{array}\right]}\end{array}
 \end{align}
-where \ensuremath{I_{F_{xx}}} is the moment of inertia of the  decoupled handlebar assembly.
+where \ensuremath{I_{F_{xx}}} is the moment of inertia of the  decoupled upper handlebar assembly (see \cref{tb:paper1}).
  
 For control purposes \cref{eq:paper1} is expressed in state space form with state vector \ensuremath{\mathbf{x}=[\dot{\phi}, \dot{\delta}, \phi, \delta, \psi]^{T}}, forcing input \ensuremath{\mathbf{f}=T_{\delta}} and output equal to the full state. The  bike is assumed to be controlled only by a steering torque because according to both \citet{moore2012human} and \citet{weir1973manual}  the rear frame roll angle is mainly
  controlled by steering. 
@@ -127,11 +126,11 @@ y_{nm} &= \begin{bmatrix}1 & 0\end{bmatrix} \begin{bmatrix} T_\delta \\ \dot{T}_
     \label{eq:gnmBLOCKB}
 \end{align}
 
-where \ensuremath{\alpha} is the controller output representing the efferent neural signal, \ensuremath{\zeta} is the damping coefficient and \ensuremath{\omega_c} is the cutoff frequency. The latter two   parameters are chosen according to activation dynamics present in the shoulder joint \cite{happee2008posture}.
+where \ensuremath{a} is the controller output representing the efferent neural signal, \ensuremath{\zeta} is the damping coefficient and \ensuremath{\omega_c} is the cutoff frequency. The latter two   parameters are chosen according to activation dynamics present in the shoulder joint \cite{happee2008posture}.
 
 The steer angle \(\delta\) and steer rate \(\dot{\delta}\) feedback is attributed to the muscle spindles, while the torque feedback is made possible with the help of the golgi tendon organs. The roll and heading angle come from the visual system. Lastly the roll rate feedback is attributed to the vestibular system. 
 
-The bicycle model of \cref{eq:bikeEOM} is combined with the neuromuscular dynamics block of \cref{eq:gnmBLOCKA,eq:gnmBLOCKB} to create a combined  plant with state \ensuremath{x=[\dot{\phi}, \dot{\delta}, \phi, \delta, \psi, T_\delta \dot{T}_\delta]^{T}} ,input \ensuremath{a} and \ensuremath{w} and output \ensuremath{y=[\dot{\phi}, \dot{\delta}, \phi, \delta, \psi, T_\delta]^{T}}. In order to make possible the implementation of the predictor which is discrete in nature the state space representation of the combined plant is discretized by zero order hold with a time step of 0.001 \si{\second}. The equivalent model block diagram is shown in \cref{fig:paper4}.
+The bicycle model of \cref{eq:bikeEOM1,eq:bikeEOM2} is combined with the neuromuscular dynamics block of \cref{eq:gnmBLOCKA,eq:gnmBLOCKB} to create a combined  plant with state \ensuremath{x=[\dot{\phi}, \dot{\delta}, \phi, \delta, \psi, T_\delta \dot{T}_\delta]^{T}} ,input \ensuremath{a} and \ensuremath{w} and output \ensuremath{y=[\dot{\phi}, \dot{\delta}, \phi, \delta, \psi, T_\delta]^{T}}. In order to make possible the implementation of the predictor which is discrete in nature the state space representation of the combined plant is discretized by zero order hold with a time step of 0.005 \si{\second}. For a look into how this time step affects simulation integration error refer to \cref{fig:convergence}. Additionally, in order to make the measured  and parametric ouptut signals comparable with simulation, they are resampled from 1000 \si{hz} to 200 \si{hz}. The equivalent model block diagram is shown in \cref{fig:paper4}.
 
 \subsubsection{The reafferent optimal predictor}
 Many strategies to counter time delays have been proposed in literature. The most basic predictor is the Smith predictor, which has been explored in motor control research by \citet{miall1993cerebellum}. The Smith predictor compensates for time delays through the use of an internal forward model of the controlled dynamics and an internal model of the sensory delay pathways. The forward model works by utilizing an efferent signal of the control input while the comparison between prediction and measurement is trying to simulate the human's ability to distinguish between reafference and exafference.  Unfortunately the  most basic Smith predictor scheme does not work for unstable open loop systems \cite{smith1957closed}. In this work a modification to the normal Smith predictor scheme is suggested. In place of the forward model a discrete optimal predictor  (DOP) is used that forward simulates the amount of steps according to the model of sensory delay (see \cref{fig:delay_line}). This works like a resetting forward model that is updated every time step by the delayed state so the predictor loop does not become unstable. Because every sensory pathway has different time delays, the conventional DOP is adapted to work with variable time delay state input. This adapatation is illustrated with a simplified example in the block scheme of \cref{fig:VDROP_line}.  The DOP   without the Smith  correction can still work and has been implemented by \citet{van2001adaptive} for modeling stance control but it leads to predictions that do not contain any amount of the effect of the disturbance on the state. The block diagram of the predictor can be seen in \cref{fig:paper4}.
@@ -169,7 +168,7 @@ Many strategies to counter time delays have been proposed in literature. The mos
     % \captionsetup{justification=centering,margin=2cm}
 
     \includegraphics[width=\linewidth,trim={0 2.8cm 0 2cm},clip]{images/VDROP_block.pdf}
-    \caption{Block diagram of the Variable Delay Reafferent Optimal Prediction Model. \ensuremath{A^*} ,\ensuremath{B^*}, \ensuremath{H_d^*} are the discretized matrices of the combined plant dynamics, \ensuremath{d_i} is the amount of delay in times steps per sensory channel and \ensuremath{d_{max}} the maximum value of those. Matrices \ensuremath{A_m^*} ,\ensuremath{B_m^*} express the dynamics of the internal model of the process. When the internal model is assumed to be perfect \ensuremath{A_m^*=A^*} and \ensuremath{B^*=B^*}. First the delayed measurements are all further delayed upto the maximum amount of delay among signals  in order to synchronize them.  The delayed output measurement  is forwarded in time (\ensuremath{d_{max}} times) in the tapped delay line to produce the first undelayed estimate of the output \ensuremath{\hat{y}^p}. When a less delayed measurement  of a certain state becomes available the tapped delay line  state register is updated with that measurement. This way the accumulation of forward simulation error is minimized. Output \ensuremath{\hat{y}^p} is again delayed through a model of the  internal time delay. The difference between this re-delayed prediction with the delayed measurements creates the error \ensuremath{e} which is added back to  \ensuremath{\hat{y}^p}  to create the final corrected prediction \ensuremath{\hat{y}^c}. }
+    \caption{Block diagram of the Variable Delay Reafferent Optimal Prediction Model. \ensuremath{A^*} ,\ensuremath{B^*}, \ensuremath{H_d^*} are the discretized matrices of the combined plant dynamics, \ensuremath{d_i} is the amount of delay in times steps per sensory channel and \ensuremath{d_{max}} the maximum value of those. Matrices \ensuremath{A_m^*} ,\ensuremath{B_m^*} express the dynamics of the internal model of the process. When the internal model is assumed to be perfect \ensuremath{A_m^*=A^*} and \ensuremath{B^*=B^*}. First the delayed measurements are all further delayed upto the maximum amount of delay among signals  in order to synchronize them.  The delayed output measurement  is forwarded in time (\ensuremath{d_{max}} times) in the tapped delay line to produce the first undelayed estimate of the output \ensuremath{\hat{y}^p}. When a less delayed measurement  of a certain state becomes available the tapped delay line  state register is updated with that measurement. This way the accumulation of forward simulation error is minimized. Output \ensuremath{\hat{y}^p} is again delayed through a model of the  internal time delay. The difference between this re-delayed prediction with the delayed measurements creates the error \ensuremath{e} which is added back to  \ensuremath{\hat{y}^p}  to create the final corrected prediction \ensuremath{\hat{y}^c}. Finally, \ensuremath{\hat{y}^c} is fed into the pure gain block \ensuremath{K}, the parameters of which are estimated through the gray box optimization procedure, which produces the control input \ensuremath{a}, representing the neural signal sent to the muscles.}
     \label{fig:paper4}
 \end{figure}
 
@@ -177,11 +176,11 @@ Many strategies to counter time delays have been proposed in literature. The mos
 
 In order to assess the effectiveness of the torque feedback loop, three models of incremental complexity are used. In the first the feedback pathways are fed into the controller without delays. In the second delays are added. The third one compensates for time delays by the use of the VDROP. The three models have the  controller gains as free parameters. More specifically, the gains are estimated by fitting the model output into the non-parametric data-set derived in \cite{dialynaseffect}.  The gains were estimated by minimization of the cost function 
 \begin{equation}
-    V_{N}(\boldsymbol{\theta})=\frac{1}{N} \mathlarger{\mathlarger{\mathlarger{\sum}}}_{k=1}^{N}\left[64\frac{\left(\hat{y}^{\delta}_k(\mathbf{\theta})-y^\delta_k\right)^{2}}{\underset{k}{\max} \left(y^\delta_k\right)^2}+11\frac{\left(\hat{y}^{\psi}_k(\mathbf{\theta})-y^\psi_k\right)^{2}}{\underset{k}{\max} \left(y^\psi_k\right)^2}+7\cdot10^{-6}\frac{\left(\hat{y}^{T_\delta}_k(\mathbf{\theta})\right)^2}{\underset{k}{\max} \left(y^{T_\delta}_k\right)^2}\right]
+    V_{N}(\boldsymbol{\theta})=\frac{1}{N} \mathlarger{\mathlarger{\mathlarger{\sum}}}_{k=1}^{N}\left[0.8\frac{\left(\hat{y}^{\delta}_k(\mathbf{\theta})-y^\delta_k\right)^{2}}{\left(\overline{y}^{\delta}_k\right)^2}+0.16\frac{\left(\hat{y}^{\psi}_k(\mathbf{\theta})-y^\psi_k\right)^{2}}{\left(\overline{y}^{\psi}_k\right)^2}+0.04\frac{\left(\hat{y}^{T_\delta}_k(\mathbf{\theta})\right)^2}{\left(\overline{y}^{T_\delta}_k\right)^2}\right]
     \label{eq:cost}
     \end{equation}
 
-where \ensuremath{\boldsymbol{\theta}} is a vector containing all the free parameters, \ensuremath{\hat{y}^{\delta}} and \ensuremath{\hat{y}^{\psi}} are the outputs of the simulation for the measured external disturbance \ensuremath{w} and the vector of parameters  \ensuremath{\boldsymbol{\theta}} for steer angle \ensuremath{\delta} and heading angle \ensuremath{\psi}  respectively, while \ensuremath{y^\delta} and \ensuremath{y^\psi} are the outputs of the non-parametric model.
+where \ensuremath{\boldsymbol{\theta}} is a vector containing all the free parameters, \ensuremath{\hat{y}^{\delta}} and \ensuremath{\hat{y}^{\psi}} are the outputs of the simulation for the measured external disturbance \ensuremath{w} and the vector of parameters  \ensuremath{\boldsymbol{\theta}} for steer angle \ensuremath{\delta} and heading angle \ensuremath{\psi}  respectively, while \ensuremath{y^\delta} and \ensuremath{y^\psi} are the outputs of the non-parametric model. Finally \ensuremath{\overline{y}^{\delta}_k,\overline{y}^{\psi}_k,\overline{y}^{T_\delta}_k} are the absolute maximum allowable values of the  signals and are equal to 0.4 \si{\radian}, 0.4 \si{\radian} and 10 \si{N.m} respectively.
 
 The first two terms  of the cost function are trying to match the steering and heading  response of the parametric model with that one of the non-parametric model, while the third on minimizes the amount of input torque generated in order to produce the best possible fit while maintaining minimal control effort. The weights are chosen heuristically. For optimization the genetic algorithm with a fitness limit of 0.03 is first  used in order to produce a good starting parameter vector for gradient descend algorithm to take over, which finally finds the closest possible estimate of the global minimum. For the genetic algorithm a crossover fraction of 0.85  along with a population size 10 times the length of the parameter vector is used.
 
@@ -224,7 +223,7 @@ where \ensuremath{\boldsymbol{\hat{\theta}}} is the closest estimate to the true
 
 
 \subsection{Zero Delay Model}
-The results of the zero delay model for the median rider are presented in \cref{tb:no_delay}. A \ensuremath{\mathit{VAF}} of over 90 \% is easily achieved for both steer angle and heading, while for roll the discrepancy is larger. A  look into how the model approximates the measured rider input and bicycle states for all forward speeds is seen in \cref{fig:zdm_fitA,fig:zdm_fitB}. Even in the ideal case with zero delays, the model inputs seems to lag behind the measured applied rider torque.
+The results of the zero delay model for the median rider are presented in \cref{tb:no_delay}. A \ensuremath{\mathit{VAF}} of over 90 \% is easily achieved for both steer angle and heading, while for roll the discrepancy is larger. A  look into how the model approximates the measured rider input and bicycle states for the  forward speed of 2.8 \si{m.s^{-1}} is seen in \cref{fig:zdm_raw}. For a look into how the model approximates the response of the rider for all forward speeds refer to \cref{fig:zdm_fitA,fig:zdm_fitB}. Even in the ideal case with zero delays, the model inputs seems to lag behind the measured applied rider torque.
 
 % \begin{figure}[!h]
 %     % \centering
@@ -237,41 +236,13 @@ The results of the zero delay model for the median rider are presented in \cref{
 
 \begin{figure}[!h]
     \centering
-    \begin{subfigure}[b]{\textwidth}
         \centering
         \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/nodelay_28.eps}}
-        \caption{}
-        \label{fig:zdm_fit1}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/nodelay_36.eps}}
-        \caption{}
-        \label{fig:zdm_fit2}
-    \end{subfigure}
-    
-    \caption{Comparison between parametric model output (Zero Delay Model), non-parametric model output and measured signals for the two lowest speed levels for the case where torque feedback is present in the rider control model and bicycle is operating under the "haptics on" dynamics.}
-    \label{fig:zdm_fitA}
+        \caption{Comparison between parametric model output (Zero Delay Model), non-parametric model output and measured signals for the lowest speed level for the case where torque feedback is present in the rider control model and bicycle is operating under the "haptics on" dynamics.}
+    \label{fig:zdm_raw}
  \end{figure}
 
- \begin{figure}
-    \centering
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/nodelay_46.eps}}
-        \caption{}
-        \label{fig:zdm_fit3}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/nodelay_57.eps}}
-        \caption{}
-        \label{fig:zdm_fit4}
-    \end{subfigure}
-    
-    \caption{Comparison between parametric model output (Zero Delay Model), non-parametric model output and measured signals for the two highest speed levels for the case where torque feedback is present in the rider control model and bicycle is operating under the "haptics on" dynamics.}
-    \label{fig:zdm_fitB}
- \end{figure}
+
 From the coefficient of variation, no real difference between the levels of normalized uncertainty is noted. However, \ensuremath{\mathit{VAF}_\delta} drops more than 15-20\% when \ensuremath{T_\delta} feedback is turned off (see \cref{tb:no_delay}), which indicates significant impact on the fit. Additionally,  the steering angle and torque response   becomes significantly more oscillatory when \ensuremath{{T_\delta}} feedback is turned off (see \cref{fig:paper6}). Roll stabilization performance does not seem to be affected, however steering effort considerably does. Regarding the haptics off case, where the intent is to simulate the steering feel the participants experienced in the second experimental condition, the level of steering fit degradation is small (\ensuremath{<3\%}).
 
 \begin{figure}[!h]
@@ -288,7 +259,7 @@ From the coefficient of variation, no real difference between the levels of norm
 \subsection{Variable Delay Model}
 The same procedure is repeated for the gray box model but now introducing  delays in all feedback pathways. For \ensuremath{\delta} and \ensuremath{\dot{\delta}} which are attributed to the muscle spindle sensors and for the torque feedback which is attributed to the golgi tendon organs  a delay of 25 \si{\milli\second} is chosen \cite{van2002identification,de2002adaptation}. For the feedback states attributed to visual feedback such as the roll angle \ensuremath{\phi} and yaw angle \ensuremath{\psi} a much greater delay of 200 \si{\milli\second} is chosen \cite{kawakami2002visual}. Finally for  the vestibular roll rate feedback a delay of 50 \si{\milli\second} is implemented \cite{barnett2013vestibular}. 
 
-The results of the variable delay model for the median rider are presented in \cref{tb:variable}.  Despite the fact that significant delay is introduced into the system the torque feedback loop manages to compensate maintaining a \ensuremath{\mathit{VAF}_\delta} of over 90 \% for low speed levels (see \cref{tb:variable} and \cref{fig:dm_fitA}). In \cref{fig:dm_fitA,fig:dm_fitB} the delayed response of the simulated compared to the real rider is visible between the red and blue lines in the rider torque graph. This is further exaggerated in the two remaining conditions resulting in much more oscillatory steering responses with a visible impact on roll stabilization (see \cref{fig:paper8}). The coefficient of variation of the \ensuremath{K_\delta} parameter in the haptics on with \ensuremath{T_\delta} feedback connected is the highest especially for the two highest speed levels, which indicates that this parameter is not significant for the fit. Between \ensuremath{{T_\delta}} feedback on and feedback off, a much larger drop in VAF is noted. Additionally, contrary to the zero delay model an equally significant drop in the fit is noted for the haptics off case. 
+The results of the variable delay model for the median rider are presented in \cref{tb:variable}.  Despite the fact that significant delay is introduced into the system the torque feedback loop manages to compensate maintaining a \ensuremath{\mathit{VAF}_\delta} of over 90 \% for low speed levels (see \cref{tb:variable}). In \cref{fig:dm_raw} the delayed response of the simulated compared to the real rider is visible between the red and blue lines in the rider torque graph. This is further exaggerated in the two remaining conditions resulting in much more oscillatory steering responses with a visible impact on roll stabilization (see \cref{fig:paper8}). The coefficient of variation of the \ensuremath{K_\delta} parameter in the haptics on with \ensuremath{T_\delta} feedback connected is the highest especially for the two highest speed levels, which indicates that this parameter is not significant for the fit. Between \ensuremath{{T_\delta}} feedback on and feedback off, a much larger drop in VAF is noted. Additionally, contrary to the zero delay model an equally significant drop in the fit is noted for the haptics off case. 
 
 
 
@@ -297,41 +268,13 @@ The results of the variable delay model for the median rider are presented in \c
 
 \begin{figure}[!h]
     \centering
-    \begin{subfigure}[b]{\textwidth}
         \centering
         \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/delay_28.eps}}
-        \caption{}
-        \label{fig:dm_fit1}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/delay_36.eps}}
-        \caption{}
-        \label{fig:dm_fit2}
-    \end{subfigure}
-    
-    \caption{Comparison between parametric model output (Variable Delay Model), non-parametric model output and measured signals for the two lowest speed levels for the case where torque feedback is present in the rider control model and bicycle is operating under the "haptics on" dynamics.}
-    \label{fig:dm_fitA}
- \end{figure}
+        \caption{Comparison between parametric model output (Variable Delay Model), non-parametric model output and measured signals for lowest speed level for the case where torque feedback is present in the rider control model and bicycle is operating under the "haptics on" dynamics.}   
+        \label{fig:dm_raw}
+\end{figure}
 
- \begin{figure}
-    \centering
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/delay_46.eps}}
-        \caption{}
-        \label{fig:dm_fit3}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/delay_57.eps}}
-        \caption{}
-        \label{fig:dm_fit4}
-    \end{subfigure}
-    
-    \caption{Comparison between parametric model output (Variable Delay Model), non-parametric model output and measured signals for the two highest speed levels for the case where torque feedback is present in the rider control model and bicycle is operating under the "haptics on" dynamics.}
-    \label{fig:dm_fitB}
- \end{figure}
+
 
 \begin{figure}[!h]
     \centering
@@ -348,45 +291,15 @@ The results of the variable delay model for the median rider are presented in \c
 The VDROP model of  \cref{fig:paper4} is implemented with a variable  time delay among sensory pathways equal to the values used in the variable delay model. It is assumed that the internal model of bicycle and neuromuscular dynamics along with the internal model of the inherent time delay responsible for prediction is perfect for controlling the normal bicycle dynamics (\ensuremath{A^*=A_m^*}). However in the haptics off case, where the steering dynamics change, the internal model is not updated in simulation on purpose. This falls inline with what was noted during the experiments where the subjects adapted to the new bicycle dynamics instantaneously, so a full "re-calibration" of the forward model is too far fetched. This way the extent to which the smith prediction principle can counter forward model inaccuracies is also tested. 
 
 
-The optimization results for the VDROP model are presented in \cref{tb:predict} for the median rider. From the \ensuremath{\mathit{VAF}s} and the signals shown in \cref{fig:ropm_fitA,fig:ropm_fitB} it is visible that the quality of the fit is comparable with the ideal zero delay case. In the haptics on with \ensuremath{{T_\delta}} feedback condition \ensuremath{K_{\dot{\delta}}} shows disproportionately higher CV which indicates lower importance for the fit for the steering rate feedback. However, in the haptics on without \ensuremath{ {T_\delta}} feedback case, the gain \ensuremath{K_{\delta}} shows the highest  uncertainty (see \cref{tb:predict}). Similar drop in \ensuremath{\mathit{VAF}_\delta} is present as in the zero delay model when  \ensuremath{{T_\delta}} feedback is turned off, which shows significant importance of the golgi tendon organ sensory pathway. Furthermore, the steering response exhibits  the same oscillatory behavior when torque feedback is completely disabled (see \cref{fig:paper10} ). However, the predictor manages to compensate in the haptics off case and achieve good fit which is not present in the variable delay model(see \cref{tb:predict}). In \cref{fig:gains_speed} the gains estimated for the median rider as a function of speed for all torque feedback conditions are presented. Consistent trends could only be discerned for the heading  gain \ensuremath{K_\psi}.
+The optimization results for the VDROP model are presented in \cref{tb:predict} for the median rider. From the \ensuremath{\mathit{VAF}s} and the signals shown in \cref{fig:ropm_raw} it is visible that the quality of the fit is comparable with the ideal zero delay case. In the haptics on with \ensuremath{{T_\delta}} feedback condition \ensuremath{K_{\dot{\delta}}} shows disproportionately higher CV which indicates lower importance for the fit for the steering rate feedback. However, in the haptics on without \ensuremath{ {T_\delta}} feedback case, the gain \ensuremath{K_{\delta}} shows the highest  uncertainty (see \cref{tb:predict}). Similar drop in \ensuremath{\mathit{VAF}_\delta} is present as in the zero delay model when  \ensuremath{{T_\delta}} feedback is turned off, which shows significant importance of the golgi tendon organ sensory pathway. Furthermore, the steering response exhibits  the same oscillatory behavior when torque feedback is completely disabled (see \cref{fig:paper10} ). However, the predictor manages to compensate in the haptics off case and achieve good fit which is not present in the variable delay model(see \cref{tb:predict}). In \cref{fig:gains_speed} the gains estimated for the median rider as a function of speed for all torque feedback conditions are presented. Consistent trends could only be discerned for the heading  gain \ensuremath{K_\psi}.
 
 \begin{figure}[!h]
     \centering
-    \begin{subfigure}[b]{\textwidth}
         \centering
         \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/predict_28.eps}}
-        \caption{}
-        \label{fig:ropm_fit1}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/predict_36.eps}}
-        \caption{}
-        \label{fig:ropm_fit2}
-    \end{subfigure}
-    
-    \caption{Comparison between parametric model output (VDROP Model), non-parametric model ouput and measured signals for the two lowest speed levels for the case where torque feedback is present in the rider control model and biccyle is operating under the "haptics on" dynamics.}
-    \label{fig:ropm_fitA}
+        \caption{Comparison between parametric model output (VDROP Model), non-parametric model ouput and measured signals for the lowest speed level for the case where torque feedback is present in the rider control model and biccyle is operating under the "haptics on" dynamics.}        \label{fig:ropm_raw}  
  \end{figure}
 
- \begin{figure}
-    \centering
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/predict_46.eps}}
-        \caption{}
-        \label{fig:ropm_fit3}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \makebox[\textwidth][c]{ \includegraphics[width=1.4\textwidth]{images/raw_fit_plots/predict_57.eps}}
-        \caption{}
-        \label{fig:ropm_fit4}
-    \end{subfigure}
-    
-    \caption{Comparison between parametric model output (VDROP Model), non-parametric model output and  measured signals for the two highest speed levels for the case where torque feedback is present in the rider control model and bicycle is operating under the "haptics on" dynamics.}
-    \label{fig:ropm_fitB}
- \end{figure}
 
 
 \begin{figure}[!h]
@@ -449,7 +362,7 @@ Finally, in order to assess the effectiveness of the predictor, the VDROP model 
 From the left plot of \cref{fig:predictor_compare} it is visible that the estimate of the state  improves due to the fact that the effect of the disturbance on the state albeit delayed is added back to the optimal prediction. Worth noting that both prediction strategies produce satisfactory results and manage to stabilize the system. However, the main advantage of  VDROP is its ability to correct for internal model inaccuracies. In \cref{fig:predictor_compareA} the results of a simulation using VDROP  model is compared with the results of the adapted DOP  but in this case internal model imperfections are introduced. This is done by replacing the perfect forward model with  the one used for the haptics off steering dynamics. The reasoning behind that is based on the assumption that the human has a reduced perception of bicycle dynamics that does not take into account the fact that roll also affects the state of the handlebar assembly.  In \cref{fig:predictor_compare2} it is visible that VDROP manages to achieve comparable performance to the perfect internal model case while adapted DOP fails. 
 
 \subsubsection{Validation}
-Similar to how the median rider of the trainning dataset is calculated, the median rider of the validation dataset is determined. The VDROP model with its estimated parameters is tested by determining the variance accounted for between the non-parametric response of the  validation dataset and the simulation output. The results can be seen in seen in \cref{tb:validation}.
+Similar to how the median rider of the trainning dataset is calculated, the median rider of the validation dataset is determined. The VDROP model with its estimated parameters is tested by determining the variance accounted for between the non-parametric response of the  validation dataset and the simulation output. The results can be seen in seen in \cref{tb:validation}. For a more detailed look into  how the simulated signals approximate the measured response refer to \cref{fig:ropm_valA,fig:ropm_valB} of \cref{ch:appD}.
 \begin{table}[!h]
   
     \centering
@@ -720,7 +633,7 @@ Similar to how the median rider of the trainning dataset is calculated, the medi
  
 Since in the control scheme the feedback is defined as negative, positive feedback gains produce torques opposite to the direction of the state that they act on. In that case a  positive \ensuremath{K_\delta} works like a normal restoring spring and  a positive \ensuremath{K_{\dot{\delta}}} as a dissipative damper. This was a design choice for all gains related to muscle spindles, in order to simulate lower spinal reflexes which  lead to increased stiffness and damping of the handlebar assembly. This is the reason the index of dispersion for the gain \ensuremath{K_\delta} is so large for the cases where the estimate is near zero (see \cref{tb:variable}). The gradient descent algorithm if left unbounded would result in values lower than zero which would lead to a physiologically impossible reflex response.  
 
-On the other hand, the proportional and derivative roll gains  are consistently negative among all models for all forward speeds and all torque feedback level conditions. This falls in line with what is believed to be the main balancing strategy for single track vehicles; the so called "steer into the fall". \ensuremath{K_\psi} always being negative means that the rider steers into the direction that heading is diverging, which  seems counter intuitive. However, this could be explained by the fact that the heading correction task and the roll stabilization are inherently coupled. \ensuremath{K_\psi} also exhibits a  consistent trend in all feedback conditions in all the rider models test. It decreases as the forward speed increases (see \cref{fig:gains_speed}). This might indicate that heading is what modulates the response as forward speed increases. As forward speed increases and the bicycle becomes more and more stable the rider shifts focus towards heading correction and less towards roll stabilization. 
+On the other hand, the proportional and derivative roll gains  are consistently negative among all models for all forward speeds and all torque feedback level conditions. This falls in line with what is the main balancing strategy for single track vehicles; the so called "steer into the fall". Controller gain \ensuremath{K_\psi} always being negative means that the rider steers into the direction that heading is diverging, which  is due to the countersteering effect. Countersteering is used by single-track vehicle operators, such as cyclists and motorcyclists, to initiate a turn toward a given direction by momentarily steering counter to the desired direction. Gain \ensuremath{K_\psi} also exhibits a  consistent trend in all feedback conditions for all the rider models tested. It decreases as the forward speed increases (see \cref{fig:gains_speed}). This might indicate that heading is what modulates the response as forward speed increases. As  speed increases and the bicycle becomes more and more self stable the rider shifts focus towards heading correction and less towards roll stabilization. 
 
 While the delayed control input  of the rider is expected in the variable delay model, a noticeable delay can be discerned even in the ideal zero delay model (see \cref{fig:zdm_fitB}). This occurs because  of the lag induced by the neuromuscular transfer function (see \cref{eq:gnmBLOCKA,eq:gnmBLOCKB}), the parameters of which do not seem to fall in line with the measured behavior as the response of the rider to the disturbance in the non-parametric model is much faster. 
 
