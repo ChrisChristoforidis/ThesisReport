@@ -16,7 +16,7 @@ R_{xyz}=R_x(\phi)R_y(\theta)R_z(\psi)=\left(\begin{array}{ccc}{\cos \theta \cos 
 \label{eq:rotmat2}
 \end{equation}
 
-where \ensuremath{\phi} is the angle of rotation around axis X, \ensuremath{\theta} is the angle of rotation around axis Y and \ensuremath{\psi} is the angle of rotation around axis Z. \Cref{eq:rotmat2} maps a vector from the global system G to the body fixed system B. In order to estimate the euler angle offsets the bike was configured in two different ways to aligne the gravity vector with the z and x axis respectively.
+where \ensuremath{\phi} is the angle of rotation around axis X, \ensuremath{\theta} is the angle of rotation around axis Y and \ensuremath{\psi} is the angle of rotation around axis Z. \Cref{eq:rotmat2} maps a vector from the global system G to the body fixed system B. In order to estimate the euler angle offsets the bike was configured in two different ways to align the gravity vector with the z and x axis respectively.
 The readings from the accelerometer are expressed in the sensor frame (B). \Cref{eq:firstIMU}  is used to solve for the euler angle offsets. Unfortunately the three equations have only two degrees of freedom so two configurations are required so as to solve for all three angles. 
 
  In the first, \ensuremath{i=1} and \ensuremath{\boldsymbol{g}_1=[ 0 \;\; 0 \;\; 1]^T }(see \cref{fig:config1}) (note that the vector of accelerations is normalized)  with \cref{eq:firstIMU} solving for \ensuremath{\theta} and \ensuremath{\phi}. The lack of any dependence on the yaw  angle is intuitive to understand since a rotation  around the z-axis is aligned with the gravitational field and accelerometers are completely insensitive to rotations about the gravitational field vector. Consequently in the second, \ensuremath{i=2} and \ensuremath{\boldsymbol{g}_2=[ -1 \;\;0\;\; 0 ]^T} which leads to   \cref{eq:firstIMU} solving for \ensuremath{\psi} and \ensuremath{\theta} (see \cref{fig:config2}).
@@ -55,9 +55,9 @@ Solving \cref{eq:firstIMU} for the angles we get :
    \label{eq:offset3}
 \end{align}
 
-From \crefrange{eq:offset1}{eq:offset3} the euler angle offsets calculated are inserted into rotation matrix \ensuremath{R_{\mathit{xyz}}}. The transpose of the result (\ref{eq:resultIMU}) is then used to transform the IMU measurements from the coordinate frame B to the coordinate frame G which is consistent with the linearized equations of motion defined in \cref{subsec:EOM}.
+From \crefrange{eq:offset1}{eq:offset3} the euler angle offsets calculated are inserted into rotation matrix \ensuremath{R_{\mathit{xyz}}}. The transpose of the result (\ref{eq:resultIMU}) is then used to transform the IMU measurements from the coordinate frame B to the coordinate frame G which is consistent with the linearized equations of motion defined in \cref{eq:paper1}.
 
 \begin{equation}
 R_{\mathit{IMU}}=R_{\mathit{xyz}}^T(\phi_o,\theta_o,\psi_o)=\left(\begin{array}{ccc} 0.9939 & -0.006106 & -0.1105\\ 0.006069 & 1.0 & -0.000675\\ 0.1105 & 0 & 0.9939 \end{array}\right)
     \label{eq:resultIMU}
-\end{equation}
+\end{equation} 

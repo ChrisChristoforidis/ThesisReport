@@ -17,14 +17,14 @@ Given  the steer rate (\ensuremath{\dot{\delta}}) and acceleration(\ensuremath{\
 \end{figure}
 
 \section{Steer rate and acceleration} \label{sec:rateAccel}
-Since only the steering angle is directly measurable, a way needs to be found that produces accurate estimations of steer rate and steer acceleration. Simple numerical differencing techniques proved ineffective as noise effects were magnified resulting in completed corrupted second derivatives, even after filtering the original signal to a cutoff frequency of 10 Hz. 
+Since only the steering angle is directly measurable, a way needs to be found that produces accurate estimations of steer rate and steer acceleration. Simple numerical differencing techniques proved ineffective as noise effects were magnified resulting in completely corrupted second derivatives, even after filtering the original signal to a cutoff frequency of 10 Hz. 
 
 To combat this problem a piecewise cubic interpolation technique using the cubic spline function was used. The principle of this method is simple. Third order polynomilas are fitted   between the datapoints. This results in a signal that is identical to the original but instead of discrete points, it is represented by the union of polynomial functions. After this point the steer rate and acceleration can be easily obtained by taking the derivatives of the polynomials. the result of the method is seen in figure \ref{fig:spline}. 
 \begin{figure}[ht]
     \centering
     \captionsetup{justification=centering,margin=2cm}
 
-    \includegraphics[scale=0.6]{images/steer_rates_spline.eps}
+    \includegraphics[width=\linewidth]{images/steer_rates_spline.eps}
     \caption{Steering angle signal with its derivates produced by the piecewise cubic spline interpolation method.}
     \label{fig:spline}
 \end{figure}
